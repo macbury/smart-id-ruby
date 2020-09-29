@@ -65,12 +65,7 @@ module SmartId::Api
         method: @method,
         url: @url,
         headers: { content_type: :json, accept: :json },
-        timeout: SmartId.poller_timeout_seconds + 1,
-        ssl_verify_callback: lambda do |_, cert_store|
-          provided_pub_key = cert_store.chain[0].public_key
-          saved_key = self.class.const_get("#{SmartId.environment}_SSL_KEY")
-          Digest::SHA256.digest(provided_pub_key.to_der) == Base64.decode64(saved_key)
-        end
+        timeout: SmartId.poller_timeout_seconds + 1
       }
     end
 
